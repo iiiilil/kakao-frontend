@@ -1,22 +1,40 @@
-import { KeyboardEvent, useEffect } from "react";
+import { useState } from "react";
+import { Paper, Tab, Tabs } from "@mui/material";
+import ChatIcon from "@mui-icons-material/Chat";
+import PeopleIcon from "@mui/icons-material/People";
+import { Box } from "@mui/system";
+import Friends from "./pages/Friends";
 
 const App = (): JSX.Element => {
-  useEffect(() => {
-    alert("hello");
-  }, []);
+  const [currentTab, setCurrentTab] = useState<string>("friends");
 
-  const preventKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    console.log(event.key);
-    if (event.key === "h") {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const changeTab = {changedValue: string} => {
+    setCurrentTab(changedValue);
   };
-
+    
   return (
-    <>
-      <input type="text" onKeyDown={preventKeyDown} />
-    </>
+    <section>
+      <Box>{currentTab === "friends" && <Friends />}</Box>
+      <Paper
+        sx={{ position: "fixed", bottom: 0, left: 0, right: 0}}
+        elevation={3}
+        >
+          <Tabs centerd variant="fullWIdth" value={currentTab}>
+            <Tab
+              icon={<PeoleIcon />}
+              label="친구"
+              value="friends"
+              onClick={() => changeTab("friends")}
+            />
+              <Tab
+              icon={<ChatIcon />}
+              label="채팅"
+              value="chats"
+              onClick={() => changeTab("chats")}
+            />
+          </Tabs>
+        </Paper>
+    </section>
   );
 };
 
